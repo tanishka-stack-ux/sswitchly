@@ -6,9 +6,9 @@ All data is stored in memory for now, so everything is lost when the app stops. 
 
 ## Tech stack
 
-- Java 21
-- Spring Boot (Spring Web, Validation)
-- Maven
+Java 21
+Spring Boot (Spring Web, Validation)
+Maven
 
 ## How to run
 
@@ -62,11 +62,11 @@ A request always travels controller, then service, then repository. A controller
 
 ## Flag rules
 
-- A new flag always starts **off**.
-- `key` is required and may only contain lowercase letters, numbers and hyphens (for example `new-checkout`).
-- `name` is required.
-- `description` is optional.
-- Two flags in the same project cannot share a key.
+A new flag always starts **off**.
+  `key` is required and may only contain lowercase letters, numbers and hyphens (for example `new-checkout`).
+`name` is required.
+ `description` is optional.
+ Two flags in the same project cannot share a key.
 
 ## Example flow
 
@@ -103,22 +103,20 @@ Every error uses the same shape:
 {"error": {"code": "NOT_FOUND", "message": "Flag 0000... not found"}}
 ```
 
-| Status | Code | When |
-| ------ | ---- | ---- |
-| `400` | `VALIDATION_FAILED` | Missing or invalid input, such as an empty name or a bad key |
-| `404` | `NOT_FOUND` | The organization, project or flag does not exist |
-| `409` | `CONFLICT` | A flag with the same key already exists in the project |
+Status ,Code , When
+`400` , `VALIDATION_FAILED` , Missing or invalid input, such as an empty name or a bad key ,
+`404` ,`NOT_FOUND` ,The organization, project or flag does not exist 
+`409` ,`CONFLICT` , A flag with the same key already exists in the project 
 
 ## What I tested
+Creating an organization, a project and a flag returns `201`, and the flag starts with `"enabled": false`.
+Turning a flag on returns `200`, and fetching it again confirms it stayed on.
+ A duplicate key in the same project returns `409`.
+A key like `New Checkout` returns `400`.
+An unknown id returns `404`.
+Deleting a flag returns `204`, and deleting it again returns `404`.
+After restarting the app, the list of organizations is empty.
 
-- Creating an organization, a project and a flag returns `201`, and the flag starts with `"enabled": false`.
-- Turning a flag on returns `200`, and fetching it again confirms it stayed on.
-- A duplicate key in the same project returns `409`.
-- A key like `New Checkout` returns `400`.
-- An unknown id returns `404`.
-- Deleting a flag returns `204`, and deleting it again returns `404`.
-- After restarting the app, the list of organizations is empty.
-
-## Next steps
+##Next steps
 
 Replace the in-memory repositories with a database. The services and controllers will not need to change, because they only depend on the repository interfaces.
